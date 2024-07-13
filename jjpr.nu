@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 # Create a PR for the current commit
-def jjpr [
+def 'jjpr create' [
   --draft (-d)
   --do-not-auto-tag (-t)
   --core-banking
