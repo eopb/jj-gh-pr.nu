@@ -1,5 +1,10 @@
 #!/usr/bin/env nu
 
+# Nushell command for opening Jujutsu PRs with GitHub
+def jjpr [] {
+  help jjpr
+}
+
 # Create a PR for the current revision
 def 'jjpr create' [
   --change (-c): string = "@" # Revision to include as head of PR
