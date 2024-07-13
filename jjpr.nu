@@ -2,12 +2,12 @@
 
 # Create a PR for the current revision
 def 'jjpr create' [
+  --change (-c): string = "@" # Revision to include as head of PR
+  --base (-b): string # Defaults to the parent of `--change`
   --draft (-d) # Open PR in draft
+  --web (-w) # Open the PR in a browser after it is opened
   --do-not-auto-tag (-t) # Add label `do-not-auto-tag`
   --core-banking # Add label `core-banking`
-  --change (-c): string = "@" # Revision to include as head of PR
-  --web (-w) # Open the PR in a browser after it is opened
-  --base (-b): string # Defaults to the parent of `--change`
 ] {
   jj git push -c $change;
   let head = _jjpr_branches $change | get 0;
