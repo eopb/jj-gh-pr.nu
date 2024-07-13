@@ -91,7 +91,7 @@ def 'jjpr merge' [
   let auto_arg = if ($auto) { [ --auto ] } else { [] };
   let squash_arg = if ($squash) { [ -s ] } else { [ -r ] };
 
-  gh pr merge $head ...$auto_arg ...$squash_arg
+  gh pr merge $head ...$auto_arg ...$squash_arg -d
 }
 
 def _jjpr_template_rev [template: string rev: string] {
