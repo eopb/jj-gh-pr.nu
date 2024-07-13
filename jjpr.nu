@@ -1,13 +1,13 @@
 #!/usr/bin/env nu
 
-# Create a PR for the current commit
+# Create a PR for the current revision
 def 'jjpr create' [
-  --draft (-d)
-  --do-not-auto-tag (-t)
-  --core-banking
-  --change (-c): string = "@"
-  --web (-w)
-  --base (-b): string
+  --draft (-d) # Open PR in draft
+  --do-not-auto-tag (-t) # Add label `do-not-auto-tag`
+  --core-banking # Add label `core-banking`
+  --change (-c): string = "@" # Revision to include as head of PR
+  --web (-w) # Open the PR in a browser after it is opened
+  --base (-b): string # Defaults to the parent of `--change`
 ] {
   jj git push -c $change;
   let head = _jjpr_branches $change | get 0;
@@ -29,10 +29,10 @@ def 'jjpr create' [
   }
 }
 
-# Update the current PR and its PR description
+# Update a PRs base
 def 'jjpr update base' [
-  --change (-c): string = "@"
-  --base (-b): string
+  --change (-c): string = "@" # Head of PR
+  --base (-b): string # New base. Defaults to the parent of `--change`
 ] {
   jj git push -c $change;
   let head = _jjpr_branches $change | get 0;
@@ -46,9 +46,9 @@ def 'jjpr update base' [
   gh pr edit $head -B $base
 }
 
-# Update the current PR and its PR description
+# Update a PR description with revision details
 def 'jjpr update desc' [
-  --change (-c): string = "@"
+  --change (-c): string = "@" # Head of PR
 ] {
   jj git push -c $change;
   let description = _jjpr_template_rev 'description' $change;
@@ -69,10 +69,10 @@ def 'jjpr update desc' [
   gh pr edit $head -t $title -b $body
 }
 
-# Update the current PR and its PR 
+# View details for a PR
 def 'jjpr view' [
-  --change (-c): string = "@"
-  --web (-w)
+  --change (-c): string = "@" # Head of PR
+  --web (-w) # View PR in browser
 ] {
   let head = _jjpr_branches $change | get 0;
  
@@ -81,10 +81,11 @@ def 'jjpr view' [
   gh pr view $head ...$web_arg
 }
 
+# Merge an open PR
 def 'jjpr merge' [
-  --change (-c): string = "@"
-  --auto (-a)
-  --squash (-s)
+  --change (-c): string = "@" # Head of PR
+  --auto (-a) # Enable auto-merge
+  --squash (-s) # Merge with squash rather than rebase
 ] {
   let head = _jjpr_branches $change | get 0;
  
