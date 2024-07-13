@@ -91,7 +91,7 @@ def 'jjpr merge' [
   let auto_arg = if ($auto) { [ --auto ] } else { [] };
   let squash_arg = if ($squash) { [ -s ] } else { [ -r ] };
 
-  gh pr merge $head ...$auto_arg ...$squash
+  gh pr merge $head ...$auto_arg ...$squash_arg
 }
 
 def _jjpr_template_rev [template: string rev: string] {
@@ -103,7 +103,7 @@ def _jjpr_base [change: string] {
   _jjpr_branches $parent | get 0
 }
 
-def _jjpr_branch [rev: string] {
+def _jjpr_branches [rev: string] {
   _jjpr_template_rev 'branches' $rev
     | split row ' '
     # Remove `*` not yet pushed prefix
