@@ -1,12 +1,12 @@
 #!/usr/bin/env nu
 
 # Nushell command for opening Jujutsu PRs with GitHub
-def jjpr [] {
+def 'jj pr' [] {
   help jjpr
 }
 
 # Create a PR for the current revision
-def 'jjpr create' [
+def 'jj pr create' [
   --change (-c): string = "@" # Revision to include as head of PR
   --base (-b): string # Defaults to the parent of `--change`
   --draft (-d) # Open PR in draft
@@ -35,7 +35,7 @@ def 'jjpr create' [
 }
 
 # Update a PRs base
-def 'jjpr update base' [
+def 'jj pr update base' [
   --change (-c): string = "@" # Head of PR
   --base (-b): string # New base. Defaults to the parent of `--change`
 ] {
@@ -52,7 +52,7 @@ def 'jjpr update base' [
 }
 
 # Update a PR description with revision details
-def 'jjpr update desc' [
+def 'jj pr update desc' [
   --change (-c): string = "@" # Head of PR
 ] {
   jj git push -c $change;
@@ -75,7 +75,7 @@ def 'jjpr update desc' [
 }
 
 # View details for a PR
-def 'jjpr view' [
+def 'jj pr view' [
   --change (-c): string = "@" # Head of PR
   --web (-w) # View PR in browser
 ] {
@@ -87,7 +87,7 @@ def 'jjpr view' [
 }
 
 # Merge an open PR
-def 'jjpr merge' [
+def 'jj pr merge' [
   --change (-c): string = "@" # Head of PR
   --auto (-a) # Enable auto-merge
   --squash (-s) # Merge with squash rather than rebase
