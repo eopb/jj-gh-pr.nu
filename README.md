@@ -13,8 +13,8 @@ Add the `jjpr` command to your shell
 source jjpr.nu
 ```
 
-Run `jjpr`
+Run `jj pr`
 
 ```
-jjpr --help
+jj pr --help
 ```
