@@ -2,7 +2,7 @@
 
 # Nushell command for opening Jujutsu PRs with GitHub
 def 'jj pr' [] {
-  help jjpr
+  help jj pr
 }
 
 # Create a PR for the current revision
