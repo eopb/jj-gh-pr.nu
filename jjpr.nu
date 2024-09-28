@@ -15,7 +15,7 @@ def 'jj pr create' [
   --core-banking # Add label `core-banking`
 ] {
   jj git push -c $change;
-  let head = _jjpr_branches $change | get 0;
+  let head = _jjpr_bookmarks $change | get 0;
 
   let base = if ($base == null) {
     _jjpr_base $change
@@ -40,7 +40,7 @@ def 'jj pr update base' [
   --base (-b): string # New base. Defaults to the parent of `--change`
 ] {
   jj git push -c $change;
-  let head = _jjpr_branches $change | get 0;
+  let head = _jjpr_bookmarks $change | get 0;
 
   let base = if ($base == null) {
     _jjpr_base $change
@@ -69,7 +69,7 @@ def 'jj pr update desc' [
     | skip while {|line| $line == ""}
     | str join "\n";
 
-  let head = _jjpr_branches $change | get 0;
+  let head = _jjpr_bookmarks $change | get 0;
 
   gh pr edit $head -t $title -b $body
 }
@@ -79,7 +79,7 @@ def 'jj pr view' [
   --change (-c): string = "@" # Head of PR
   --web (-w) # View PR in browser
 ] {
-  let head = _jjpr_branches $change | get 0;
+  let head = _jjpr_bookmarks $change | get 0;
  
   let web_arg = if ($web) { [ -w ] } else { [] };
 
@@ -92,7 +92,7 @@ def 'jj pr merge' [
   --auto (-a) # Enable auto-merge
   --squash (-s) # Merge with squash rather than rebase
 ] {
-  let head = _jjpr_branches $change | get 0;
+  let head = _jjpr_bookmarks $change | get 0;
  
   let auto_arg = if ($auto) { [ --auto ] } else { [] };
   let squash_arg = if ($squash) { [ -s ] } else { [ -r ] };
@@ -106,12 +106,12 @@ def _jjpr_template_rev [template: string rev: string] {
 
 def _jjpr_base [change: string] {
   let parent = $change + '-';
-  _jjpr_branches $parent | get 0
+  _jjpr_bookmarks $parent | get 0
 }
 
-def _jjpr_branches [rev: string] {
-  _jjpr_template_rev 'branches' $rev
+def _jjpr_bookmarks [rev: string] {
+  _jjpr_template_rev 'bookmarks' $rev
     | split row ' '
     # Remove `*` not yet pushed prefix
-    | each {|branch| $branch | str trim --right --char '*' }
+    | each {|bookmark| $bookmark | str trim --right --char '*' }
 }
